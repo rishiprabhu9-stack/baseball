@@ -188,6 +188,196 @@
     <!-- TODAY'S GAMES -->
     <section id="games" data-animate="reveal">
       <h2>📅 Today’s Games & Top Player Stats</h2>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="AI Baseball Hub — live MLB schedule, player stats, analytics, training, fan community, collectibles, and history."/>
+  <title>⚾ AI Baseball Hub — Live</title>
+
+  <!-- Single-file styles (light/dark via CSS variables) -->
+  <style>
+    :root{
+      --bg:#f6f8fb; --card:#ffffff; --muted:#6b7280; --text:#0f172a; --accent:#2563eb;
+      --glass: rgba(255,255,255,0.6);
+    }
+    [data-theme="dark"]{
+      --bg:#071024; --card:#0f1726; --muted:#93a6bf; --text:#e6eefc; --accent:#38bdf8;
+      --glass: rgba(8,12,20,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,var(--bg), #e8eefc00);
+      color:var(--text); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      transition: background .35s, color .35s;
+      line-height:1.45;
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:40;
+      display:flex; gap:1rem; align-items:center; justify-content:space-between;
+      padding:12px 20px; backdrop-filter: blur(6px);
+      background: var(--glass);
+      border-bottom:1px solid rgba(0,0,0,0.04);
+    }
+    .brand{display:flex; gap:.75rem; align-items:center}
+    .logo{
+      width:40px; height:40px; border-radius:9px; display:grid; place-items:center;
+      font-weight:700; color:white; background:linear-gradient(135deg,var(--accent), #9333ea);
+      box-shadow:0 6px 16px rgba(37,99,235,0.12);
+    }
+    nav a{color:var(--muted); text-decoration:none; margin:0 8px; font-weight:600}
+    nav a:hover{color:var(--accent)}
+    .controls{display:flex; gap:.5rem; align-items:center}
+    .btn{
+      border:0; background:var(--accent); color:white; padding:.5rem .75rem; border-radius:8px; cursor:pointer;
+      font-weight:700; box-shadow: 0 6px 18px rgba(37,99,235,0.12);
+    }
+    .ghost{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text); box-shadow:none}
+
+    /* Hero */
+    .hero{
+      max-width:1200px; margin:24px auto; padding:36px; border-radius:14px;
+      display:grid; grid-template-columns: 1fr 360px; gap:20px; align-items:center;
+      background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(147,51,234,0.12));
+      backdrop-filter: blur(4px);
+    }
+    .hero h1{margin:0; font-size:28px; color:var(--text)}
+    .hero p{margin:8px 0 0; color:var(--muted)}
+    .hero .cta{margin-top:14px; display:flex; gap:10px}
+
+    /* Layout sections */
+    main{max-width:1200px; margin:28px auto; padding:0 20px}
+    section{margin:28px 0}
+    h2{margin:0 0 14px; color:var(--accent); font-size:20px}
+    .grid{display:grid; gap:16px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr))}
+
+    /* Cards */
+    .card{
+      background:var(--card); border-radius:12px; padding:16px; box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+      transform:translateY(0); transition: transform .22s ease, box-shadow .22s ease, opacity .35s;
+      opacity:0; will-change:transform,opacity;
+    }
+    .card.visible{opacity:1; transform:translateY(0)}
+    .card:hover{transform:translateY(-6px); box-shadow: 0 16px 36px rgba(2,6,23,0.12)}
+
+    /* small utilities */
+    .muted{color:var(--muted); font-size:0.95rem}
+    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .pill{background:rgba(0,0,0,0.04); color:var(--muted); padding:6px 10px; border-radius:999px; font-weight:700}
+
+    /* Schedule styling */
+    .game{
+      display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px; border-radius:10px;
+      border:1px dashed rgba(0,0,0,0.03);
+    }
+    .team{display:flex; gap:10px; align-items:center}
+    .team .abbr{font-weight:800; font-size:16px}
+    .score{font-weight:900; font-size:16px}
+    .small{font-size:0.9rem; color:var(--muted)}
+
+    /* animated reveal */
+    [data-animate="reveal"]{opacity:0; transform: translateY(10px); transition:opacity .5s ease, transform .5s ease}
+    [data-animate="reveal"].in-view{opacity:1; transform:none}
+
+    /* footer */
+    footer{padding:28px 20px; text-align:center; color:var(--muted)}
+
+    /* responsive */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr; padding:20px}
+      nav{display:none}
+      header{padding:10px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">⚾</div>
+      <div>
+        <div style="font-weight:800">AI Baseball Hub</div>
+        <div class="muted" style="font-size:12px">Live scores • Player stats • Training & community</div>
+      </div>
+    </div>
+
+    <nav aria-label="Main navigation">
+      <a href="#ai">AI</a>
+      <a href="#games">Today</a>
+      <a href="#stats">Player</a>
+      <a href="#training">Training</a>
+      <a href="#community">Community</a>
+      <a href="#marketplace">Marketplace</a>
+      <a href="#history">History</a>
+    </nav>
+
+    <div class="controls">
+      <button class="btn ghost" id="refreshBtn" title="Refresh today's games">⟳ Refresh</button>
+      <button class="btn" id="themeToggle" aria-pressed="false" title="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero" role="banner" aria-labelledby="heroTitle">
+    <div>
+      <h1 id="heroTitle">AI Baseball Hub — live MLB updates & fan tools</h1>
+      <p class="muted">Today’s games, boxscore highlights, AI predictions, training feedback, collectibles, and trivia — all in a single demo page you can host on GitHub Pages.</p>
+      <div class="cta">
+        <button class="btn" onclick="document.querySelector('#games').scrollIntoView({behavior:'smooth'})">See Today’s Games</button>
+        <button class="btn ghost" onclick="document.querySelector('#ai').scrollIntoView({behavior:'smooth'})">Try AI Predictor</button>
+      </div>
+      <p class="muted" style="margin-top:10px; font-size:0.9rem">Data sourced from the MLB Stats API (public endpoints).</p>
+    </div>
+
+    <!-- Quick snapshot -->
+    <aside style="padding:12px; background:var(--card); border-radius:12px; box-shadow: 0 10px 30px rgba(2,6,23,0.06)">
+      <div class="muted" style="font-weight:800">Snapshot</div>
+      <div style="margin-top:10px">
+        <div class="row"><div class="pill" id="todayDate">Date</div></div>
+        <div style="margin-top:10px" id="snapshotSummary">Loading today's schedule...</div>
+      </div>
+    </aside>
+  </div>
+
+  <main>
+
+    <!-- AI Predictions -->
+    <section id="ai" data-animate="reveal">
+      <h2>🤖 AI-Powered Predictions</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Quick Predictor (Demo)</h3>
+          <p class="muted">Pick two teams and get a mock probability — deterministic demo (no real ML) built from simple heuristics.</p>
+          <div style="margin-top:10px">
+            <label class="small">Home team</label>
+            <select id="homeTeam" style="width:100%; padding:8px; margin-top:6px"></select>
+            <label class="small" style="margin-top:8px; display:block;">Away team</label>
+            <select id="awayTeam" style="width:100%; padding:8px; margin-top:6px"></select>
+            <div style="margin-top:10px" class="row">
+              <button class="btn" id="predictBtn">Predict</button>
+              <button class="btn ghost" id="resetPredict">Reset</button>
+            </div>
+            <div id="predictionResult" style="margin-top:12px"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>How this demo prediction works</h3>
+          <ul class="muted">
+            <li>Uses simple heuristics: recent wins, run differential in mock data, and star player influence.</li>
+            <li>Designed to show how an AI prediction UI might look; swap in a real model/server when ready.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TODAY'S GAMES -->
+    <section id="games" data-animate="reveal">
+      <h2>📅 Today’s Games & Top Player Stats</h2>
 
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; gap:12px">
@@ -333,6 +523,347 @@
     const qs = s => document.querySelector(s);
     const qsa = s => Array.from(document.querySelectorAll(s));
     const todayISO = (d=>{ const x=new Date(d||Date.now()); const yyyy=x.getFullYear(); const mm=String(x.getMonth()+1).padStart(2,'0'); const dd=String(x.getDate()).padStart(2,'0'); return \`\${yyyy}-\${mm}-\${dd}\` })();
+
+    // ---------- Theme toggle (persist) ----------
+    const root = document.documentElement;
+    const themeToggle = qs('#themeToggle');
+    function setTheme(t){
+      root.setAttribute('data-theme', t);
+      themeToggle.innerText = t === 'dark' ? '☀️' : '🌙';
+      themeToggle.setAttribute('aria-pressed', t==='dark');
+      localStorage.setItem('theme', t);
+    }
+    // initial
+    const saved = localStorage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    setTheme(saved);
+    themeToggle.addEventListener('click', ()=> setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+    // ---------- Basic animation on scroll ----------
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('in-view');
+      });
+    }, {threshold:0.12});
+    qsa('[data-animate="reveal"]').forEach(el => { revealObserver.observe(el); });
+
+    // Generic card reveal (fade-in)
+    document.querySelectorAll('.card').forEach((c, idx) => {
+      setTimeout(()=> c.classList.add('visible'), 120 * (idx%6));
+    });
+
+    // set year
+    qs('#year').innerText = new Date().getFullYear();
+
+    // ---------- Demo data for players & UI ----------
+    const samplePlayers = [
+      {id:545361, name:'Shohei Ohtani'},
+      {id:545123, name:'Aaron Judge'},
+      {id:545678, name:'Mike Trout'},
+      {id:542341, name:'Mookie Betts'}
+    ];
+    // populate player selects
+    const playerA = qs('#playerA'), playerB = qs('#playerB');
+    samplePlayers.forEach(p=>{
+      const optA = document.createElement('option'); optA.value = p.name; optA.innerText = p.name;
+      const optB = optA.cloneNode(true);
+      playerA.appendChild(optA); playerB.appendChild(optB);
+    });
+    playerA.selectedIndex = 0; playerB.selectedIndex = 1;
+    function comparePlayers(){
+      const a = playerA.value, b = playerB.value;
+      qs('#playerCompareResult').innerHTML = \`<strong>\${a}</strong> vs <strong>\${b}</strong> — Demo stats: AVG .280 / HR 30 vs AVG .295 / HR 28 (mock data).\`;
+    }
+    playerA.addEventListener('change', comparePlayers); playerB.addEventListener('change', comparePlayers);
+    comparePlayers();
+
+    // ---------- AI Predictor demo (deterministic heuristic) ----------
+    const teamsList = ['NYY','BOS','LAD','NYM','SD','SF','ATL','CHC','HOU','TEX'];
+    const homeSelect = qs('#homeTeam'), awaySelect = qs('#awayTeam');
+    function populateTeams(){
+      teamsList.forEach(code=>{
+        const o1 = document.createElement('option'); o1.value = code; o1.text = code;
+        const o2 = o1.cloneNode(true);
+        homeSelect.appendChild(o1); awaySelect.appendChild(o2);
+      });
+      awaySelect.selectedIndex = 1;
+    }
+    populateTeams();
+    qs('#predictBtn').addEventListener('click', ()=> {
+      const home = homeSelect.value, away = awaySelect.value;
+      if(home===away){ qs('#predictionResult').innerText = 'Choose two different teams.'; return;}
+      // Mock heuristic: hash team codes to pseudo-strength
+      function strength(s){ return s.split('').reduce((a,ch)=>a + ch.charCodeAt(0),0) % 100 }
+      const h = strength(home), a = strength(away);
+      let homeProb = Math.round( (60 * (h/(h+a))) + (Math.random()*10-5) );
+      if(homeProb<10) homeProb=10; if(homeProb>90) homeProb=90;
+      const awayProb = 100 - homeProb;
+      qs('#predictionResult').innerHTML = \`<div style="font-weight:800">\${home} \${homeProb}% vs \${away} \${awayProb}%</div><div class="muted" style="margin-top:8px">Reason: simple demo model using recent-form proxy & stadium advantage (demo only).</div>\`;
+    });
+    qs('#resetPredict').addEventListener('click', ()=> { homeSelect.selectedIndex=0; awaySelect.selectedIndex=1; qs('#predictionResult').innerText=''; });
+
+    // ---------- Modal helpers ----------
+    function openModal(html){ qs('#modalContent').innerHTML = html; qs('#modal').style.display='flex'; document.body.style.overflow='hidden'; }
+    function closeModal(){ qs('#modal').style.display='none'; qs('#modalContent').innerHTML=''; document.body.style.overflow=''; }
+
+    // Swing demo
+    qs('#swingBtn').addEventListener('click', ()=> {
+      openModal(\`
+        <h3>Upload Swing — Demo</h3>
+        <p class="muted">In a production version you'd upload a short video. An AI model would then analyze frame-by-frame and return feedback such as:</p>
+        <ul>
+          <li>Timing: early by ~35ms</li>
+          <li>Rotation: hips 12° under-rotated</li>
+          <li>Bat speed: avg 72 mph (suggest drills to increase)</li>
+        </ul>
+        <p class="muted">Tip: integrate an ML model or service (video processing + pose estimation) and replace this modal with live results.</p>\`);
+    });
+
+    // ---------- Local progress tracker ----------
+    const sessionsKey = 'aiBase_sessions_v1';
+    function loadSessions(){ return JSON.parse(localStorage.getItem(sessionsKey) || '[]'); }
+    function renderSessions(){
+      const list = loadSessions();
+      if(!list.length) qs('#progressTracker').innerHTML = '<div class="muted">No sessions yet.</div>';
+      else qs('#progressTracker').innerHTML = list.map(s=>\`<div class="muted">Session \${s.id}: Power \${s.power}% • Accuracy \${s.accuracy}%</div>\`).join('');
+    }
+    qs('#recordSession').addEventListener('click', ()=>{
+      const sessions = loadSessions();
+      const id = sessions.length+1;
+      sessions.push({id, power: Math.round(60 + Math.random()*30), accuracy: Math.round(60 + Math.random()*30), date: new Date().toISOString()});
+      localStorage.setItem(sessionsKey, JSON.stringify(sessions));
+      renderSessions();
+    });
+    qs('#clearSessions').addEventListener('click', ()=>{ localStorage.removeItem(sessionsKey); renderSessions(); });
+    renderSessions();
+
+    // ---------- Community highlights (in-page) ----------
+    const highlightsKey = 'aiBase_highlights_v1';
+    function loadHighlights(){ return JSON.parse(localStorage.getItem(highlightsKey) || '[]'); }
+    function renderHighlights(){ qs('#highlightsList').innerHTML = loadHighlights().map(h=>\`<div class="muted">• \${h}</div>\`).join('') || '<div class="muted">No highlights yet.</div>'; }
+    qs('#submitHighlight').addEventListener('click', ()=>{
+      const text = qs('#highlightInput').value.trim();
+      if(!text) return alert('Write a short highlight first.');
+      const arr = loadHighlights(); arr.unshift(text); localStorage.setItem(highlightsKey, JSON.stringify(arr.slice(0,20)));
+      qs('#highlightInput').value='';
+      renderHighlights();
+    });
+    renderHighlights();
+
+    // ---------- Trivia ----------
+    function answerTrivia(choice){
+      // For demo, we pick "Cap Anson" as the answer per earlier note.
+      const correct = "Cap Anson";
+      qs('#triviaResult').innerText = choice === correct ? '✅ Correct! (Historical recognition can vary.)' : '❌ Not quite — try again.';
+    }
+
+    // ---------- This day in baseball (static demo entry) ----------
+    qs('#thisDay').innerText = "October 26, 2004 — Red Sox clinched the World Series, ending the 86-year championship drought.";
+
+    // ---------- Hot topics demo -->
+    qs('#hotTopics').innerHTML = '<li class="muted">Is small ball making a comeback?</li><li class="muted">Which rookies will break out next?</li><li class="muted">Fantasy sleepers to pick this week</li>';
+
+    // ---------- MLB Fetching logic: schedule & boxscore ----------
+    // Caching strategy: store object under 'aiBase_schedule_{date}', with timestamp.
+    const cachePrefix = 'aiBase_schedule_';
+    const scheduleContainer = qs('#gamesContainer');
+    const gamesHeader = qs('#gamesHeader');
+    const cacheInfo = qs('#cacheInfo');
+    const snapshotSummary = qs('#snapshotSummary');
+    const todayDateEl = qs('#todayDate');
+    todayDateEl.innerText = todayISO;
+
+    // Helper: show loading
+    function showLoading(msg){ scheduleContainer.innerHTML = '<div class="muted">'+msg+'</div>'; gamesHeader.innerText = msg; }
+
+    // Fetch today's schedule from MLB Stats API
+    async function fetchSchedule(date = todayISO, force=false){
+      const cacheKey = cachePrefix + date;
+      const cachedRaw = localStorage.getItem(cacheKey);
+      if(!force && cachedRaw){
+        try{
+          const cached = JSON.parse(cachedRaw);
+          if(cached.date === date){
+            // use cached
+            cacheInfo.innerText = 'Yes (' + cached.fetchedAt + ')';
+            renderSchedule(cached.data, date);
+            return cached.data;
+          }
+        }catch(e){ /* fallthrough to fetch fresh */ }
+      }
+
+      showLoading('Fetching today\'s schedule from MLB...');
+      try{
+        const url = 'https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=' + encodeURIComponent(date);
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Schedule fetch failed: ' + res.status);
+        const json = await res.json();
+        // store in cache
+        localStorage.setItem(cacheKey, JSON.stringify({date, fetchedAt: new Date().toLocaleString(), data: json}));
+        cacheInfo.innerText = 'Yes (' + new Date().toLocaleString() + ')';
+        renderSchedule(json, date);
+        return json;
+      }catch(err){
+        console.error(err);
+        scheduleContainer.innerHTML = '<div class="muted">Failed to fetch schedule. You can click Refresh to try again.</div>';
+        gamesHeader.innerText = 'Schedule unavailable';
+      }
+    }
+
+    // Render schedule and attach click handlers that fetch boxscore per game
+    function renderSchedule(scheduleJson, date){
+      todayDateEl.innerText = date;
+      const dates = scheduleJson.dates || [];
+      const dateObj = dates[0];
+      if(!dateObj || !dateObj.games || dateObj.games.length === 0){
+        scheduleContainer.innerHTML = '<div class="muted">No MLB games scheduled for today.</div>';
+        gamesHeader.innerText = 'No games today';
+        snapshotSummary.innerText = 'No games scheduled.';
+        return;
+      }
+      gamesHeader.innerText = (dateObj.games.length === 1 ? '1 game today' : dateObj.games.length + ' games today');
+      snapshotSummary.innerText = dateObj.games.slice(0,3).map(g => \`\${g.teams.away.team.abbreviation} @ \${g.teams.home.team.abbreviation} (\${g.status.detailedState})\`).join(' • ');
+      const frag = document.createDocumentFragment();
+      dateObj.games.forEach(game => {
+        const div = document.createElement('div'); div.className = 'game card';
+        div.style.cursor = 'pointer';
+        div.tabIndex = 0;
+        const away = game.teams.away.team;
+        const home = game.teams.home.team;
+        const status = game.status.detailedState;
+        const left = document.createElement('div'); left.className='team';
+        left.innerHTML = \`<div style="width:42px;height:42px;display:grid;place-items:center;border-radius:8px;background:linear-gradient(135deg,var(--accent),#9333ea);color:white;font-weight:800">\${away.team.abbreviation || away.name.substring(0,2)}</div><div style="margin-left:8px"><div class="abbr">\${away.team.name || away.name}</div><div class="small muted">Away</div></div>\`;
+        const mid = document.createElement('div'); mid.innerHTML = \`<div class="small muted">\${status}</div><div class="small muted">\${game.venue ? game.venue.name : ''}</div>\`;
+        const right = document.createElement('div'); right.style.textAlign='right';
+        let scoreText = '<div class="small muted">TBD</div>';
+        if(game.teams.away.score != null || game.teams.home.score != null){
+          scoreText = \`<div class="score">\${game.teams.away.score ?? '-'} — \${game.teams.home.score ?? '-'}</div>\`;
+        }
+        right.innerHTML = scoreText + '<div class="small muted">' + (game.gameDate ? new Date(game.gameDate).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : '') + '</div>';
+        div.appendChild(left); div.appendChild(mid); div.appendChild(right);
+
+        // click -> fetch boxscore & show top players
+        div.addEventListener('click', ()=> showBoxscore(game.gamePk, game));
+        div.addEventListener('keypress', (e)=> { if(e.key === 'Enter') showBoxscore(game.gamePk, game); });
+
+        frag.appendChild(div);
+      });
+      scheduleContainer.innerHTML = ''; scheduleContainer.appendChild(frag);
+
+      // Also populate small list of top players after fetching boxscores for up to first 6 games (to limit requests)
+      fetchTopPlayersFromGames(dateObj.games.slice(0,6));
+    }
+
+    // Fetch boxscore details for a game and show modal with top players
+    async function showBoxscore(gamePk, game){
+      openModal('<div class="muted">Loading boxscore...</div>');
+      try{
+        const url = 'https://statsapi.mlb.com/api/v1/game/' + gamePk + '/boxscore';
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Boxscore fetch failed: ' + res.status);
+        const data = await res.json();
+        // Extract top hitters (by hits) from both teams
+        const players = [];
+        for(const side of ['home','away']){
+          const teamObj = data.teams && data.teams[side];
+          if(teamObj && teamObj.batters){
+            const batters = Object.values(teamObj.players || {})
+              .filter(p => p.position && p.stats && p.stats.batting)
+              .map(p => ({name: p.person.fullName, hits: (p.stats.batting.h || 0), hr: (p.stats.batting.hr || 0), rbi: (p.stats.batting.rbi || 0)}));
+            players.push(...batters);
+          }
+        }
+        // sort by hits desc
+        players.sort((a,b)=> (b.hits||0) - (a.hits||0));
+        const top = players.slice(0,6);
+        const html = ['<h3>Boxscore & Top Hitters</h3>','<div class="muted">Game: ' + (game.teams.away.team.name||'') + ' @ ' + (game.teams.home.team.name||'') + '</div>','<div style="margin-top:12px">'];
+        if(top.length===0) html.push('<div class="muted">No batter stats available yet for this game.</div>');
+        else {
+          html.push('<table style="width:100%; border-collapse:collapse"><tr><th style="text-align:left">Player</th><th>H</th><th>HR</th><th>RBI</th></tr>');
+          top.forEach(p => {
+            html.push(\`<tr><td style="padding:6px 8px">\${p.name}</td><td style="text-align:center">\${p.hits}</td><td style="text-align:center">\${p.hr}</td><td style="text-align:center">\${p.rbi}</td></tr>\`);
+          });
+          html.push('</table>');
+        }
+        html.push('<div style="margin-top:12px" class="muted small">Tip: open live feed for play-by-play (new tab).</div>');
+        openModal(html.join(''));
+      }catch(err){
+        console.error(err);
+        openModal('<div class="muted">Failed to load boxscore. Try Refresh.</div>');
+      }
+    }
+
+    // fetch boxscores for several games and create an aggregated top players list in the UI
+    async function fetchTopPlayersFromGames(games){
+      qs('#topPlayers').innerHTML = '<div class="muted">Loading top players from recent boxscores...</div>';
+      try{
+        const playerMap = {};
+        await Promise.all(games.map(async g => {
+          try{
+            const res = await fetch('https://statsapi.mlb.com/api/v1/game/' + g.gamePk + '/boxscore');
+            if(!res.ok) return;
+            const js = await res.json();
+            // iterate batters in both teams
+            ['home','away'].forEach(side=>{
+              const t = js.teams && js.teams[side];
+              if(!t || !t.players) return;
+              Object.values(t.players).forEach(p=>{
+                if(!p.person || !p.stats || !p.stats.batting) return;
+                const name = p.person.fullName;
+                const hits = Number(p.stats.batting.h || 0);
+                const hr = Number(p.stats.batting.hr || 0);
+                if(!playerMap[name]) playerMap[name] = {name, hits:0, hr:0};
+                playerMap[name].hits += hits;
+                playerMap[name].hr += hr;
+              });
+            });
+          }catch(e){ /* ignore single game errors */ }
+        }));
+        const players = Object.values(playerMap).sort((a,b)=> b.hits - a.hits);
+        if(players.length===0) qs('#topPlayers').innerHTML = '<div class="muted">No top players available yet.</div>';
+        else qs('#topPlayers').innerHTML = players.slice(0,6).map(p=>\`<div style="padding:6px 0"><strong>\${p.name}</strong> — \${p.hits} H • \${p.hr} HR</div>\`).join('');
+      }catch(e){
+        console.error(e);
+        qs('#topPlayers').innerHTML = '<div class="muted">Failed to aggregate top players.</div>';
+      }
+    }
+
+    // Helper to open live feed pages for each game in new tabs (limited by browser popup settings)
+    function openAllFeeds(){
+      const cacheKey = cachePrefix + todayISO;
+      const cachedRaw = localStorage.getItem(cacheKey);
+      if(!cachedRaw) return alert('No schedule cached. Refresh first.');
+      const cached = JSON.parse(cachedRaw);
+      const games = (cached.data.dates && cached.data.dates[0] && cached.data.dates[0].games) || [];
+      if(games.length===0) return alert('No games to open.');
+      games.forEach(g => {
+        const url = 'https://www.mlb.com/gameday/' + g.gamePk;
+        window.open(url, '_blank');
+      });
+    }
+
+    // ---------- Refresh button logic ----------
+    qs('#refreshBtn').addEventListener('click', ()=>{
+      // clear cached for today and re-fetch
+      const cacheKey = cachePrefix + todayISO;
+      localStorage.removeItem(cacheKey);
+      cacheInfo.innerText = 'Refreshing...';
+      fetchSchedule(todayISO, true);
+    });
+
+    // ---------- Initialize: load schedule from cache or fetch ----------
+    (async function init(){
+      // show today's date snapshot
+      try{ const res = await fetchSchedule(); }catch(e){}
+    })();
+
+    // ---------- Accessibility: close modal on escape ----------
+    document.addEventListener('keydown', (e)=> { if(e.key === 'Escape') closeModal(); });
+
+    // ---------- Extra: open snapshot summary when clicking snapshot area ----------
+    qs('#snapshotSummary').addEventListener && qs('#snapshotSummary').addEventListener('click', ()=> document.querySelector('#games').scrollIntoView({behavior:'smooth'}));
+  </script>
+</body>
+</html>
 
     // ---------- Theme toggle (persist) ----------
     const root = document.documentElement;
